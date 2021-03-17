@@ -3,11 +3,34 @@ var is_binary_conversion = true;
 function changeConversion()
 {
     is_binary_conversion = !is_binary_conversion;
+    changePlaceholder();
+    changeButton();
+}
+
+function changeButton()
+{
+    var text = document.getElementById('change').firstChild;
+    text.data = text.data == "Dec2Bin" ? "Bin2Dec" : "Dec2Bin";
+    //document.getElementByName().innerText == 
+}
+
+function changePlaceholder()
+{
+    var text = "";
+    if(is_binary_conversion)
+    {
+        text = "Binary number";
+    }
+    else
+    {
+        text = "Decimal number";
+    }
+    document.getElementsByName('number')[0].placeholder = text;
 }
 
 function validateForm(form) 
 {
-    var fnumber = form.number.value;
+    var fnumber = parseInt(form.number.value);
     var test_result = false;
     var result = 0;
     if(is_binary_conversion)
@@ -16,7 +39,8 @@ function validateForm(form)
     }
     else
     {
-        test_result = (/[09]/).test(fnumber);
+        test_result = (/[0-9]/).test(fnumber);
+        
     }
     
     if(test_result == false)
@@ -28,24 +52,14 @@ function validateForm(form)
     {
         if(is_binary_conversion)
         {
-            result = convertToDec(fnumber);
+            result = parseInt(fnumber, 10);
         }
         else
         {
-            result = convertToBin(fnumber);
+            result = fnumber.toString(2);
         }
         document.forms["form"]["result"].value = result;
         //prevents reloading page
         return false;
     }
-}
-
-function convertToDec(number)
-{
-    return parseInt(number, 2);
-}
-
-function convertToBin(number)
-{
-    return parseInt(number, 10);
 }
